@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Powerlifting – Strength by Country</title>
+  <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Powerlifting – Strength by Country</h1>
+  </header>
+
+  <section id="filter-bar">
+    <button id="filter-label">Filters</button>
+
+    <label>
+      Sex:
+      <select id="sex-filter">
+        <option value="all">All</option>
+        <option value="M">Male</option>
+        <option value="F">Female</option>
+      </select>
+    </label>
+
+    <label>
+      Tested:
+      <select id="tested-filter">
+        <option value="all">All</option>
+        <option value="Yes">Tested</option>
+        <option value="Unknown">Tested unknown</option>
+      </select>
+    </label>
+
+    <label>
+      Metric:
+      <select id="metric-filter">
+        <option value="median_dots">Median Dots</option>
+        <option value="median_total">Median Total (kg)</option>
+        <option value="lift_count">Number of Athletes</option>
+      </select>
+    </label>
+  </section>
+
+  <main id="layout">
+    <section id="map-panel">
+      <div id="map-wrapper">
+        <svg id="map-svg"></svg>
+        <div id="tooltip"></div>
+      </div>
+
+      <div id="legend-panel">
+        <span id="legend-title">Median Dots</span>
+        <div id="legend"></div>
+        <div id="legend-labels">
+          <span id="legend-low">Min</span>
+          <span id="legend-mid">Median</span>
+          <span id="legend-high">Max</span>
+        </div>
+      </div>
+    </section>
+
+    <aside id="detail-panel">
+      <h2>Detail Panel</h2>
+      <hr>
+      <p id="detail-country">Country: –</p>
+      <p id="detail-median-dots">Median Dots: –</p>
+      <p id="detail-median-total">Median Total Kg: –</p>
+      <p id="detail-count">Athlete Count: –</p>
+      <p id="detail-male">Male Athletes: –</p>
+      <p id="detail-female">Female Athletes: –</p>
+      <p id="detail-tested">Tested Athletes: –</p>
+      <p id="detail-untested">Tested Unknown Athletes: –</p>
+    </aside>
+  </main>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
