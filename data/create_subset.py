@@ -9,6 +9,7 @@ print("Loading CSV...")
 df = pd.read_csv(input_file, usecols=[
     "Name",
     "Sex",
+    "Event",
     "Equipment",
     "Age",
     "Division",
