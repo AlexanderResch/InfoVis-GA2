@@ -72,10 +72,49 @@
       <p id="detail-tested">Tested Athletes: –</p>
       <p id="detail-untested">Tested Unknown Athletes: –</p>
     </aside>
+
+    <!-- Barbell Chart -->
+
+
+    <section id="bar-bell-chart">
+      <h2> Direct Record Comparison </h2>
+      <p>
+        Using this tool you can compare the best competition results in the sport of powerlifting by interactively filtering each group.
+        You can filter by countries, sex, whether the record was made in a tested competition or not, and by
+        weightclasses.
+        Just search for a filter tag and stack multiple filters! If no result for your combination is found, the bar will drop to zero.
+      </p>
+
+      <h3> Filter blue group: </h3>
+      <div class="tag-selector">
+        <div class="tag-input-area">
+          <div id="selected-tags-blue"></div>
+          <input id="tag-input-blue" type="text" autocomplete="off" placeholder="Type to search tags...">
+        </div>
+
+        <ul id="suggestions-blue" class="hidden"></ul>
+      </div>
+
+      <h3> Filter red group: </h3>
+      <div class="tag-selector">
+        <div class="tag-input-area">
+          <div id="selected-tags-red"></div>
+          <input id="tag-input-red" type="text" autocomplete="off" placeholder="Type to search tags...">
+        </div>
+
+        <ul id="suggestions-red" class="hidden"></ul>
+      </div>
+
+
+
+      <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
+    </section>
   </main>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <script src="./barbellchart.js"></script>
   <script src="./script.js"></script>
+
 </body>
 </html>

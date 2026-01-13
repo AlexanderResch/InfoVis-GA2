@@ -1,0 +1,938 @@
+{
+  "male": [
+    "Sex",
+    "M"
+  ],
+  "female": [
+    "Sex",
+    "F"
+  ],
+  "diverse": [
+    "Sex",
+    "Mx"
+  ],
+  "Tested": [
+    "Tested",
+    true
+  ],
+  "Untested": [
+    "Tested",
+    null
+  ],
+  "Estonia": [
+    "Country",
+    "Estonia"
+  ],
+  "Ireland": [
+    "Country",
+    "Ireland"
+  ],
+  "Azerbaijan": [
+    "Country",
+    "Azerbaijan"
+  ],
+  "Armenia": [
+    "Country",
+    "Armenia"
+  ],
+  "Luxembourg": [
+    "Country",
+    "Luxembourg"
+  ],
+  "Puerto Rico": [
+    "Country",
+    "Puerto Rico"
+  ],
+  "Malta": [
+    "Country",
+    "Malta"
+  ],
+  "Slovenia": [
+    "Country",
+    "Slovenia"
+  ],
+  "Hong Kong": [
+    "Country",
+    "Hong Kong"
+  ],
+  "Namibia": [
+    "Country",
+    "Namibia"
+  ],
+  "Serbia and Montenegro": [
+    "Country",
+    "Serbia and Montenegro"
+  ],
+  "Tahiti": [
+    "Country",
+    "Tahiti"
+  ],
+  "Venezuela": [
+    "Country",
+    "Venezuela"
+  ],
+  "Papua New Guinea": [
+    "Country",
+    "Papua New Guinea"
+  ],
+  "Gibraltar": [
+    "Country",
+    "Gibraltar"
+  ],
+  "Brunei": [
+    "Country",
+    "Brunei"
+  ],
+  "Cambodia": [
+    "Country",
+    "Cambodia"
+  ],
+  "USA": [
+    "Country",
+    "USA"
+  ],
+  "Romania": [
+    "Country",
+    "Romania"
+  ],
+  "Sweden": [
+    "Country",
+    "Sweden"
+  ],
+  "Singapore": [
+    "Country",
+    "Singapore"
+  ],
+  "Thailand": [
+    "Country",
+    "Thailand"
+  ],
+  "Portugal": [
+    "Country",
+    "Portugal"
+  ],
+  "Bulgaria": [
+    "Country",
+    "Bulgaria"
+  ],
+  "Albania": [
+    "Country",
+    "Albania"
+  ],
+  "Paraguay": [
+    "Country",
+    "Paraguay"
+  ],
+  "Suriname": [
+    "Country",
+    "Suriname"
+  ],
+  "Rhodesia": [
+    "Country",
+    "Rhodesia"
+  ],
+  "USSR": [
+    "Country",
+    "USSR"
+  ],
+  "Canada": [
+    "Country",
+    "Canada"
+  ],
+  "France": [
+    "Country",
+    "France"
+  ],
+  "Egypt": [
+    "Country",
+    "Egypt"
+  ],
+  "Qatar": [
+    "Country",
+    "Qatar"
+  ],
+  "China": [
+    "Country",
+    "China"
+  ],
+  "Turkey": [
+    "Country",
+    "Turkey"
+  ],
+  "Guatemala": [
+    "Country",
+    "Guatemala"
+  ],
+  "El Salvador": [
+    "Country",
+    "El Salvador"
+  ],
+  "West Germany": [
+    "Country",
+    "West Germany"
+  ],
+  "Indonesia": [
+    "Country",
+    "Indonesia"
+  ],
+  "Cayman Islands": [
+    "Country",
+    "Cayman Islands"
+  ],
+  "Belize": [
+    "Country",
+    "Belize"
+  ],
+  "Jamaica": [
+    "Country",
+    "Jamaica"
+  ],
+  "Zambia": [
+    "Country",
+    "Zambia"
+  ],
+  "Togo": [
+    "Country",
+    "Togo"
+  ],
+  "Senegal": [
+    "Country",
+    "Senegal"
+  ],
+  "Djibouti": [
+    "Country",
+    "Djibouti"
+  ],
+  "Latvia": [
+    "Country",
+    "Latvia"
+  ],
+  "UK": [
+    "Country",
+    "UK"
+  ],
+  "Uruguay": [
+    "Country",
+    "Uruguay"
+  ],
+  "Taiwan": [
+    "Country",
+    "Taiwan"
+  ],
+  "Honduras": [
+    "Country",
+    "Honduras"
+  ],
+  "Belarus": [
+    "Country",
+    "Belarus"
+  ],
+  "Kyrgyzstan": [
+    "Country",
+    "Kyrgyzstan"
+  ],
+  "Switzerland": [
+    "Country",
+    "Switzerland"
+  ],
+  "Israel": [
+    "Country",
+    "Israel"
+  ],
+  "Uzbekistan": [
+    "Country",
+    "Uzbekistan"
+  ],
+  "Colombia": [
+    "Country",
+    "Colombia"
+  ],
+  "Iceland": [
+    "Country",
+    "Iceland"
+  ],
+  "N.Ireland": [
+    "Country",
+    "N.Ireland"
+  ],
+  "Kiribati": [
+    "Country",
+    "Kiribati"
+  ],
+  "Panama": [
+    "Country",
+    "Panama"
+  ],
+  "Jordan": [
+    "Country",
+    "Jordan"
+  ],
+  "Congo": [
+    "Country",
+    "Congo"
+  ],
+  "Ethiopia": [
+    "Country",
+    "Ethiopia"
+  ],
+  "Slovakia": [
+    "Country",
+    "Slovakia"
+  ],
+  "Iran": [
+    "Country",
+    "Iran"
+  ],
+  "Argentina": [
+    "Country",
+    "Argentina"
+  ],
+  "Moldova": [
+    "Country",
+    "Moldova"
+  ],
+  "Ecuador": [
+    "Country",
+    "Ecuador"
+  ],
+  "New Zealand": [
+    "Country",
+    "New Zealand"
+  ],
+  "Norway": [
+    "Country",
+    "Norway"
+  ],
+  "US Virgin Islands": [
+    "Country",
+    "US Virgin Islands"
+  ],
+  "Yugoslavia": [
+    "Country",
+    "Yugoslavia"
+  ],
+  "Comoros": [
+    "Country",
+    "Comoros"
+  ],
+  "Philippines": [
+    "Country",
+    "Philippines"
+  ],
+  "Serbia": [
+    "Country",
+    "Serbia"
+  ],
+  "Nigeria": [
+    "Country",
+    "Nigeria"
+  ],
+  "Tuvalu": [
+    "Country",
+    "Tuvalu"
+  ],
+  "Samoa": [
+    "Country",
+    "Samoa"
+  ],
+  "Isle of Man": [
+    "Country",
+    "Isle of Man"
+  ],
+  "Cameroon": [
+    "Country",
+    "Cameroon"
+  ],
+  "Guinea": [
+    "Country",
+    "Guinea"
+  ],
+  "Wallis and Futuna": [
+    "Country",
+    "Wallis and Futuna"
+  ],
+  "Vanuatu": [
+    "Country",
+    "Vanuatu"
+  ],
+  "Cuba": [
+    "Country",
+    "Cuba"
+  ],
+  "Finland": [
+    "Country",
+    "Finland"
+  ],
+  "North Macedonia": [
+    "Country",
+    "North Macedonia"
+  ],
+  "Italy": [
+    "Country",
+    "Italy"
+  ],
+  "Poland": [
+    "Country",
+    "Poland"
+  ],
+  "Brazil": [
+    "Country",
+    "Brazil"
+  ],
+  "South Korea": [
+    "Country",
+    "South Korea"
+  ],
+  "Uganda": [
+    "Country",
+    "Uganda"
+  ],
+  "Grenada": [
+    "Country",
+    "Grenada"
+  ],
+  "Trinidad and Tobago": [
+    "Country",
+    "Trinidad and Tobago"
+  ],
+  "Algeria": [
+    "Country",
+    "Algeria"
+  ],
+  "Tunisia": [
+    "Country",
+    "Tunisia"
+  ],
+  "Libya": [
+    "Country",
+    "Libya"
+  ],
+  "Mauritania": [
+    "Country",
+    "Mauritania"
+  ],
+  "Czechoslovakia": [
+    "Country",
+    "Czechoslovakia"
+  ],
+  "Transnistria": [
+    "Country",
+    "Transnistria"
+  ],
+  "Yemen": [
+    "Country",
+    "Yemen"
+  ],
+  "Mauritius": [
+    "Country",
+    "Mauritius"
+  ],
+  "Tanzania": [
+    "Country",
+    "Tanzania"
+  ],
+  "Kenya": [
+    "Country",
+    "Kenya"
+  ],
+  "Mali": [
+    "Country",
+    "Mali"
+  ],
+  "Sudan": [
+    "Country",
+    "Sudan"
+  ],
+  "Czechia": [
+    "Country",
+    "Czechia"
+  ],
+  "Nepal": [
+    "Country",
+    "Nepal"
+  ],
+  "Aruba": [
+    "Country",
+    "Aruba"
+  ],
+  "Morocco": [
+    "Country",
+    "Morocco"
+  ],
+  "Tonga": [
+    "Country",
+    "Tonga"
+  ],
+  "Myanmar": [
+    "Country",
+    "Myanmar"
+  ],
+  "Oman": [
+    "Country",
+    "Oman"
+  ],
+  "Rwanda": [
+    "Country",
+    "Rwanda"
+  ],
+  "Hungary": [
+    "Country",
+    "Hungary"
+  ],
+  "Denmark": [
+    "Country",
+    "Denmark"
+  ],
+  "Kuwait": [
+    "Country",
+    "Kuwait"
+  ],
+  "Nicaragua": [
+    "Country",
+    "Nicaragua"
+  ],
+  "Niue": [
+    "Country",
+    "Niue"
+  ],
+  "Afghanistan": [
+    "Country",
+    "Afghanistan"
+  ],
+  "Netherlands Antilles": [
+    "Country",
+    "Netherlands Antilles"
+  ],
+  "Mongolia": [
+    "Country",
+    "Mongolia"
+  ],
+  "Kazakhstan": [
+    "Country",
+    "Kazakhstan"
+  ],
+  "Croatia": [
+    "Country",
+    "Croatia"
+  ],
+  "UAE": [
+    "Country",
+    "UAE"
+  ],
+  "South Africa": [
+    "Country",
+    "South Africa"
+  ],
+  "Bahamas": [
+    "Country",
+    "Bahamas"
+  ],
+  "Peru": [
+    "Country",
+    "Peru"
+  ],
+  "Montenegro": [
+    "Country",
+    "Montenegro"
+  ],
+  "Sri Lanka": [
+    "Country",
+    "Sri Lanka"
+  ],
+  "Nauru": [
+    "Country",
+    "Nauru"
+  ],
+  "Guyana": [
+    "Country",
+    "Guyana"
+  ],
+  "Cyprus": [
+    "Country",
+    "Cyprus"
+  ],
+  "Botswana": [
+    "Country",
+    "Botswana"
+  ],
+  "The Gambia": [
+    "Country",
+    "The Gambia"
+  ],
+  "East Timor": [
+    "Country",
+    "East Timor"
+  ],
+  "Burkina Faso": [
+    "Country",
+    "Burkina Faso"
+  ],
+  "Liberia": [
+    "Country",
+    "Liberia"
+  ],
+  "Cabo Verde": [
+    "Country",
+    "Cabo Verde"
+  ],
+  "Russia": [
+    "Country",
+    "Russia"
+  ],
+  "England": [
+    "Country",
+    "England"
+  ],
+  "Scotland": [
+    "Country",
+    "Scotland"
+  ],
+  "Belgium": [
+    "Country",
+    "Belgium"
+  ],
+  "Spain": [
+    "Country",
+    "Spain"
+  ],
+  "Netherlands": [
+    "Country",
+    "Netherlands"
+  ],
+  "Lebanon": [
+    "Country",
+    "Lebanon"
+  ],
+  "Bahrain": [
+    "Country",
+    "Bahrain"
+  ],
+  "Mexico": [
+    "Country",
+    "Mexico"
+  ],
+  "Costa Rica": [
+    "Country",
+    "Costa Rica"
+  ],
+  "Bosnia and Herzegovina": [
+    "Country",
+    "Bosnia and Herzegovina"
+  ],
+  "Japan": [
+    "Country",
+    "Japan"
+  ],
+  "New Caledonia": [
+    "Country",
+    "New Caledonia"
+  ],
+  "Bangladesh": [
+    "Country",
+    "Bangladesh"
+  ],
+  "Benin": [
+    "Country",
+    "Benin"
+  ],
+  "Lesotho": [
+    "Country",
+    "Lesotho"
+  ],
+  "Abkhazia": [
+    "Country",
+    "Abkhazia"
+  ],
+  "Chile": [
+    "Country",
+    "Chile"
+  ],
+  "Lithuania": [
+    "Country",
+    "Lithuania"
+  ],
+  "Bolivia": [
+    "Country",
+    "Bolivia"
+  ],
+  "Angola": [
+    "Country",
+    "Angola"
+  ],
+  "Fiji": [
+    "Country",
+    "Fiji"
+  ],
+  "Eswatini": [
+    "Country",
+    "Eswatini"
+  ],
+  "Laos": [
+    "Country",
+    "Laos"
+  ],
+  "Sierra Leone": [
+    "Country",
+    "Sierra Leone"
+  ],
+  "Wales": [
+    "Country",
+    "Wales"
+  ],
+  "Austria": [
+    "Country",
+    "Austria"
+  ],
+  "Zimbabwe": [
+    "Country",
+    "Zimbabwe"
+  ],
+  "Greece": [
+    "Country",
+    "Greece"
+  ],
+  "Iraq": [
+    "Country",
+    "Iraq"
+  ],
+  "American Samoa": [
+    "Country",
+    "American Samoa"
+  ],
+  "Guinea-Bissau": [
+    "Country",
+    "Guinea-Bissau"
+  ],
+  "India": [
+    "Country",
+    "India"
+  ],
+  "Ukraine": [
+    "Country",
+    "Ukraine"
+  ],
+  "NULL": [
+    "Country",
+    "NULL"
+  ],
+  "Germany": [
+    "Country",
+    "Germany"
+  ],
+  "Saudi Arabia": [
+    "Country",
+    "Saudi Arabia"
+  ],
+  "Malaysia": [
+    "Country",
+    "Malaysia"
+  ],
+  "Dominican Republic": [
+    "Country",
+    "Dominican Republic"
+  ],
+  "Ivory Coast": [
+    "Country",
+    "Ivory Coast"
+  ],
+  "Gabon": [
+    "Country",
+    "Gabon"
+  ],
+  "Tajikistan": [
+    "Country",
+    "Tajikistan"
+  ],
+  "Syria": [
+    "Country",
+    "Syria"
+  ],
+  "Georgia": [
+    "Country",
+    "Georgia"
+  ],
+  "Ghana": [
+    "Country",
+    "Ghana"
+  ],
+  "Vietnam": [
+    "Country",
+    "Vietnam"
+  ],
+  "Australia": [
+    "Country",
+    "Australia"
+  ],
+  "Niger": [
+    "Country",
+    "Niger"
+  ],
+  "Pakistan": [
+    "Country",
+    "Pakistan"
+  ],
+  "Solomon Islands": [
+    "Country",
+    "Solomon Islands"
+  ],
+  "British Virgin Islands": [
+    "Country",
+    "British Virgin Islands"
+  ],
+  "Haiti": [
+    "Country",
+    "Haiti"
+  ],
+  "Cook Islands": [
+    "Country",
+    "Cook Islands"
+  ],
+  "Palestine": [
+    "Country",
+    "Palestine"
+  ],
+  "Turkmenistan": [
+    "Country",
+    "Turkmenistan"
+  ],
+  "Central African Republic": [
+    "Country",
+    "Central African Republic"
+  ],
+  "30kg weightclass": [
+    "WeightClassKg",
+    "30"
+  ],
+  "200kg weightclass": [
+    "WeightClassKg",
+    "200"
+  ],
+  "65kg weightclass": [
+    "WeightClassKg",
+    "65"
+  ],
+  "75kg weightclass": [
+    "WeightClassKg",
+    "75"
+  ],
+  "135kg weightclass": [
+    "WeightClassKg",
+    "135"
+  ],
+  "70kg weightclass": [
+    "WeightClassKg",
+    "70"
+  ],
+  "45kg weightclass": [
+    "WeightClassKg",
+    "45"
+  ],
+  "130kg weightclass": [
+    "WeightClassKg",
+    "130"
+  ],
+  "90kg weightclass": [
+    "WeightClassKg",
+    "90"
+  ],
+  "180kg weightclass": [
+    "WeightClassKg",
+    "180"
+  ],
+  "105kg weightclass": [
+    "WeightClassKg",
+    "105"
+  ],
+  "95kg weightclass": [
+    "WeightClassKg",
+    "95"
+  ],
+  "275kg weightclass": [
+    "WeightClassKg",
+    "275"
+  ],
+  "35kg weightclass": [
+    "WeightClassKg",
+    "35"
+  ],
+  "110kg weightclass": [
+    "WeightClassKg",
+    "110"
+  ],
+  "165kg weightclass": [
+    "WeightClassKg",
+    "165"
+  ],
+  "215kg weightclass": [
+    "WeightClassKg",
+    "215"
+  ],
+  "40kg weightclass": [
+    "WeightClassKg",
+    "40"
+  ],
+  "80kg weightclass": [
+    "WeightClassKg",
+    "80"
+  ],
+  "20kg weightclass": [
+    "WeightClassKg",
+    "20"
+  ],
+  "125kg weightclass": [
+    "WeightClassKg",
+    "125"
+  ],
+  "115kg weightclass": [
+    "WeightClassKg",
+    "115"
+  ],
+  "155kg weightclass": [
+    "WeightClassKg",
+    "155"
+  ],
+  "100kg weightclass": [
+    "WeightClassKg",
+    "100"
+  ],
+  "60kg weightclass": [
+    "WeightClassKg",
+    "60"
+  ],
+  "220kg weightclass": [
+    "WeightClassKg",
+    "220"
+  ],
+  "150kg weightclass": [
+    "WeightClassKg",
+    "150"
+  ],
+  "120kg weightclass": [
+    "WeightClassKg",
+    "120"
+  ],
+  "85kg weightclass": [
+    "WeightClassKg",
+    "85"
+  ],
+  "55kg weightclass": [
+    "WeightClassKg",
+    "55"
+  ],
+  "25kg weightclass": [
+    "WeightClassKg",
+    "25"
+  ],
+  "145kg weightclass": [
+    "WeightClassKg",
+    "145"
+  ],
+  "50kg weightclass": [
+    "WeightClassKg",
+    "50"
+  ],
+  "140kg weightclass": [
+    "WeightClassKg",
+    "140"
+  ]
+}

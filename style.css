@@ -63,7 +63,7 @@ header h1 {
   margin: 0 auto;
 }
 
-#map-panel {
+#layout > section {
   background: #f7f7f7;
   border-radius: 8px;
   padding: 1rem;
@@ -157,4 +157,102 @@ header h1 {
 .country.selected {
   stroke: #000000;
   stroke-width: 1.4px;
+}
+
+
+/* ===== Barbell Chart =====*/
+#bar-bell-chart-svg {
+  margin-right: 80px;
+}
+.tag-selector {
+  width: 800px;
+  height: 25px;
+  border: 1px solid #cccccc;
+  padding: 6px;
+  border-radius: 6px;
+  font-family: sans-serif;
+  position: relative;
+  box-sizing: unset;
+}
+
+/* Inline chips + input container */
+.tag-input-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Chips inside the input area */
+.tag-chip {
+  padding: 3px 6px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+#selected-tags-blue > div {
+  background: #e5e5ff;
+  border: 1px solid #7a7aff;
+}
+
+#selected-tags-red > div {
+  background: #ffe5e5;
+  border: 1px solid #ff7a7a;
+}
+
+.tag-chip span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Input inline with chips */
+.tag-input-area > input {
+  border: none;
+  flex-grow: 1;
+  min-width: 80px;
+  font-size: 14px;
+  padding: 4px;
+  background: #f7f7f7;
+}
+
+.tag-input-area > input:focus {
+  outline: none;
+}
+
+/* Suggestions box */
+.tag-selector > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  position: absolute;
+  width: calc(100% - 12px);
+  top: 52px;
+  left: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.tag-selector > ul.hidden {
+  display: none;
+}
+
+.tag-selector > ul li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+#suggestions-blue li:hover {
+  background: #cfcfff;
+}
+
+#suggestions-red li:hover {
+  background: #ffcfcf;
 }
