@@ -430,7 +430,6 @@ function updateBoxplots(countryName) {
 
   const domain = d3.extent(rowsWithDots.map(d => d.dots))
 
-  // outer layout
   const margin = { top: 34, right: 24, bottom: 44, left: 55 }
   const cols = 2
   const rowsCount = 2
@@ -445,7 +444,6 @@ function updateBoxplots(countryName) {
   const cellW = (innerW - cellPadX) / cols
   const cellH = (innerH - cellPadY) / rowsCount
 
-  // inner cell padding
   const cellInner = { top: 10, right: 10, bottom: 60, left: 0 }
   const plotW = cellW - cellInner.left - cellInner.right
   const plotH = cellH - cellInner.top - cellInner.bottom
