@@ -43,22 +43,35 @@
   </section>
 
   <main id="layout">
-    <section id="map-panel">
-      <div id="map-wrapper">
-        <svg id="map-svg"></svg>
-        <div id="tooltip"></div>
-      </div>
-
-      <div id="legend-panel">
-        <span id="legend-title">Median Dots</span>
-        <div id="legend"></div>
-        <div id="legend-labels">
-          <span id="legend-low">Min</span>
-          <span id="legend-mid">Median</span>
-          <span id="legend-high">Max</span>
+    <div id="left-col">
+      <section id="map-panel">
+        <div id="map-wrapper">
+          <svg id="map-svg"></svg>
+          <div id="tooltip"></div>
         </div>
-      </div>
-    </section>
+
+        <div id="legend-panel">
+          <span id="legend-title">Median Dots</span>
+          <div id="legend"></div>
+          <div id="legend-labels">
+            <span id="legend-low">Min</span>
+            <span id="legend-mid">Median</span>
+            <span id="legend-high">Max</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="boxplot-panel">
+        <div id="boxplot-header">
+          <h2>Dots Distributions</h2>
+          <p id="boxplot-subtitle">All countries (Dots distributions)</p>
+        </div>
+        <div id="boxplot-wrapper">
+          <svg id="boxplot-svg"></svg>
+          <div id="boxplot-tooltip"></div>
+        </div>
+      </section>
+    </div>
 
     <aside id="detail-panel">
       <h2>Detail Panel</h2>
