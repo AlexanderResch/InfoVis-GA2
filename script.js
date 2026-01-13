@@ -173,6 +173,10 @@ Promise.all([
   .on("zoom", (event) => {
     // Only apply transform to the mapGroup, not the legendGroup
     mapGroupSvg.attr("transform", event.transform);
+
+    // Keep icons from getting too large/small
+    mapGroupSvg.selectAll(".zoom-icon")
+    .attr("font-size", `${20 / event.transform.k}px`);
   })
   mapSvg.call(zoom);
 
@@ -253,7 +257,7 @@ function drawMap() {
   .attr("y", d => projection(d3.geoCentroid(d))[1])
   .attr("text-anchor", "middle")
   .attr("alignment-baseline", "middle")
-  .attr("font-size", "10px")
+  .attr("font-size", "20px")
   .style("pointer-events", "none") // Crucial: clicks pass through to the path below
   .text("🔍");
 
@@ -261,6 +265,8 @@ function drawMap() {
 
 function updateMapToCountry(countryNameLong) {
   zoomBtn.property("hidden", true);
+  mapGroupSvg.selectAll(".zoom-icon").remove();
+
   // --- BACK BUTTON ---
   d3.select("#back-button").remove();
   d3.select(mapSvg.node().parentNode)
@@ -325,7 +331,7 @@ function updateMapToCountry(countryNameLong) {
   .join("path")
   .attr("class", "country-state")
   .attr("d", pathGenerator)
-  .attr("stroke", "#666")
+  // .attr("stroke", "#666")
   .attr("stroke-width", 0.5)
   .transition().duration(500)
   .attr("fill", d => {
@@ -402,8 +408,8 @@ function handleCountryClick(event, feature) {
 
   selectedCountryName = aggregate.countryName
 
-  mapSvg.selectAll(".selection-outline").remove()
-  mapSvg.append("path")
+  mapGroupSvg.selectAll(".selection-outline").remove()
+  mapGroupSvg.append("path")
     .datum(feature)
     .attr("class", "selection-outline")
     .attr("d", path)
