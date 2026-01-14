@@ -127,8 +127,6 @@ function renderSelectedTags(tagList, inputBox, tagsContainer) {
   });
 
   handleFilterChange();
-
-
 }
 
 blueInput.addEventListener("input", () => inputHandler(blueInput, suggestionsBlue, window.selectedTagsBlue, tagsContainerBlue));
