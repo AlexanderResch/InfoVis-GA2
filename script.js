@@ -130,6 +130,7 @@ Promise.all([
     }
   })
 ]).then(([world, countries, rows]) => {
+  document.getElementById("loading").style.display = 'none';
   worldData = world
 
   worldData.features = worldData.features.filter(
