@@ -47,20 +47,37 @@
   <main id="layout">
     <div id="left-col">
       <section id="map-panel">
-        <div id="map-wrapper">
-          <svg id="map-svg"></svg>
-          <div id="tooltip"></div>
-        </div>
+        <div>
+          <div id="map-wrapper">
+            <svg id="map-svg"></svg>
+            <div id="tooltip"></div>
+          </div>
 
-        <div id="legend-panel">
-          <span id="legend-title">Median Dots</span>
-          <div id="legend"></div>
-          <div id="legend-labels">
-            <span id="legend-low">Min</span>
-            <span id="legend-mid">Median</span>
-            <span id="legend-high">Max</span>
+          <div id="legend-panel">
+            <span id="legend-title">Median Dots</span>
+            <div id="legend"></div>
+            <div id="legend-labels">
+              <span id="legend-low">Min</span>
+              <span id="legend-mid">Median</span>
+              <span id="legend-high">Max</span>
+            </div>
           </div>
         </div>
+
+
+        <aside id="detail-panel">
+          <h2>Detail Panel</h2>
+          <hr>
+          <p id="detail-country">Country: –</p>
+          <p id="detail-median-dots">Median Dots: –</p>
+          <p id="detail-median-total">Median Total Kg: –</p>
+          <p id="detail-count">Athlete Count: –</p>
+          <p id="detail-male">Male Athletes: –</p>
+          <p id="detail-female">Female Athletes: –</p>
+          <p id="detail-tested">Tested Athletes: –</p>
+          <p id="detail-untested">Tested Unknown Athletes: –</p>
+          <button id="detail-zoom-btn" hidden>Zoom</button>
+        </aside>
       </section>
 
       <section id="boxplot-panel">
@@ -73,59 +90,50 @@
           <div id="boxplot-tooltip"></div>
         </div>
       </section>
+
+      <!-- Barbell Chart -->
+
+      <section id="bar-bell-chart">
+        <h2> Direct Record Comparison </h2>
+        <p>
+          Using this tool you can compare the best competition results in the sport of powerlifting by interactively
+          filtering each group.
+          You can filter by countries, sex, whether the record was made in a tested competition or not, and by
+          weightclasses.
+          Just search for a filter tag and stack multiple filters! If no result for your combination is found, the bar
+          will drop to zero.
+        </p>
+
+        <h3> Filter blue group: </h3>
+        <div class="tag-selector">
+          <div class="tag-input-area">
+            <div id="selected-tags-blue"></div>
+            <input id="tag-input-blue" type="text" autocomplete="off" placeholder="Type to search tags...">
+          </div>
+
+          <ul id="suggestions-blue" class="hidden"></ul>
+        </div>
+
+        <h3> Filter red group: </h3>
+        <div class="tag-selector">
+          <div class="tag-input-area">
+            <div id="selected-tags-red"></div>
+            <input id="tag-input-red" type="text" autocomplete="off" placeholder="Type to search tags...">
+          </div>
+
+          <ul id="suggestions-red" class="hidden"></ul>
+        </div>
+
+
+
+        <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
+      </section>
+
     </div>
 
-    <aside id="detail-panel">
-      <h2>Detail Panel</h2>
-      <hr>
-      <p id="detail-country">Country: –</p>
-      <p id="detail-median-dots">Median Dots: –</p>
-      <p id="detail-median-total">Median Total Kg: –</p>
-      <p id="detail-count">Athlete Count: –</p>
-      <p id="detail-male">Male Athletes: –</p>
-      <p id="detail-female">Female Athletes: –</p>
-      <p id="detail-tested">Tested Athletes: –</p>
-      <p id="detail-untested">Tested Unknown Athletes: –</p>
-      <button id="detail-zoom-btn" hidden>Zoom</button>
-    </aside>
-
-    <!-- Barbell Chart -->
-
-    <section id="bar-bell-chart">
-      <h2> Direct Record Comparison </h2>
-      <p>
-        Using this tool you can compare the best competition results in the sport of powerlifting by interactively
-        filtering each group.
-        You can filter by countries, sex, whether the record was made in a tested competition or not, and by
-        weightclasses.
-        Just search for a filter tag and stack multiple filters! If no result for your combination is found, the bar
-        will drop to zero.
-      </p>
-
-      <h3> Filter blue group: </h3>
-      <div class="tag-selector">
-        <div class="tag-input-area">
-          <div id="selected-tags-blue"></div>
-          <input id="tag-input-blue" type="text" autocomplete="off" placeholder="Type to search tags...">
-        </div>
-
-        <ul id="suggestions-blue" class="hidden"></ul>
-      </div>
-
-      <h3> Filter red group: </h3>
-      <div class="tag-selector">
-        <div class="tag-input-area">
-          <div id="selected-tags-red"></div>
-          <input id="tag-input-red" type="text" autocomplete="off" placeholder="Type to search tags...">
-        </div>
-
-        <ul id="suggestions-red" class="hidden"></ul>
-      </div>
 
 
 
-      <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
-    </section>
   </main>
       <section id="individual-section">
       <h2 class="section-title">Individual Assignment: Best Yearly Records (1971-2024)</h2>
