@@ -1,14 +1,14 @@
 const width = 900
 const height = 420
+const margin = 20;
 const boxplotHeight = 700
 
-const svg = d3.select("#map-svg")
-  .attr("viewBox", `0 0 ${width} ${height}`)
+const mapSvg = d3.select("#map-svg")
+const mapGroupSvg = mapSvg.append("g");
 
 const tooltip = d3.select("#tooltip")
 
 const boxplotSvg = d3.select("#boxplot-svg")
-  .attr("viewBox", `0 0 ${width} ${boxplotHeight}`)
 
 const boxplotTooltip = d3.select("#boxplot-tooltip")
 const boxplotSubtitle = d3.select("#boxplot-subtitle")
@@ -36,11 +36,13 @@ const testedSelect = d3.select("#tested-filter")
 const metricSelect = d3.select("#metric-filter")
 
 let worldData
+let countryData
 let rawRows
 
 let currentMetric = "median_dots"
 let selectedCountryName = null
 let aggMap = new Map()
+const zoomBtn = d3.select("#detail-zoom-btn")
 
 const countryAlias = {
   "Bahamas": "The Bahamas",
@@ -57,6 +59,12 @@ const countryAlias = {
   "Guinea-Bissau": "Guinea Bissau",
   "Congo": "Republic of the Congo"
 }
+
+const possibleCountries = ["Argentina", "Australia", "Brazil", "Canada", "China", "Germany",
+  "India", "Mexico", "Netherlands", "New Zealand",
+  "South Africa", "USA"]
+let countryMapActive = false
+
 
 function normalizeCountryName(name) {
   if (!name) return null
@@ -79,6 +87,7 @@ function loadCsvGz(url, rowAccessor) {
 
 Promise.all([
   d3.json("data/world.geojson"),
+  d3.json("./data/countries.json"),
   loadCsvGz("data/openpowerlifting_subset.csv.gz", d => {
     const sex = d.Sex || "Unknown"
 
@@ -98,6 +107,11 @@ Promise.all([
     const dotsKey = Number.isFinite(dots) ? dots.toFixed(1) : "na"
     const totalKey = Number.isFinite(total) ? total.toFixed(1) : "na"
     const athleteKey = `${countryName || "na"}|${sex || "na"}|${tested || "na"}|${dotsKey}|${totalKey}|${equipment}|${event}`
+    const age = d.Age === "" ? NaN : d.Age
+    const bodyweight = d.BodyweightKg === "" ? NaN : d.BodyweightKg
+    const countryCode = d.CountryCode
+    const state = d.State
+    const date = d.Date
 
     return {
       sex,
@@ -107,10 +121,15 @@ Promise.all([
       total,
       equipment,
       event,
-      athleteKey
+      athleteKey,
+      age,
+      bodyweight,
+      countryCode,
+      state,
+      date
     }
   })
-]).then(([world, rows]) => {
+]).then(([world, countries, rows]) => {
   worldData = world
 
   worldData.features = worldData.features.filter(
@@ -124,21 +143,69 @@ Promise.all([
     worldData
   )
 
+  // init country data (polygons)
+  countries.features.forEach(function(feature) {
+    if (feature.geometry.type === "Polygon") {
+      feature.geometry.coordinates.forEach(ring => ring.reverse());
+    }
+    else if (feature.geometry.type === "MultiPolygon") {
+      feature.geometry.coordinates.forEach(polygon => {
+        polygon.forEach(ring => ring.reverse());
+      });
+    }
+  });
+  countryData = countries.features;
+
+
   drawMap()
   updateMapColors()
   updateLegend()
 
   updateBoxplots(null)
 
+  // Zoom Behavior on Map
+  zoom = d3.zoom()
+  .scaleExtent([1, 5])
+  .filter(event => {
+
+    return event.type !== 'dblclick';
+  })
+  .on("zoom", (event) => {
+    // Only apply transform to the mapGroup, not the legendGroup
+    mapGroupSvg.attr("transform", event.transform);
+
+    // Keep icons from getting too large/small
+    mapGroupSvg.selectAll(".zoom-icon")
+    .attr("font-size", `${20 / event.transform.k}px`);
+  })
+  mapSvg.call(zoom);
+
+  mapSvg
+  .attr("viewBox", `${-margin/2} ${-margin/2} ${width} ${height}`)
+  .attr("preserveAspectRatio", "xMidYMid meet") // Keeps the map centered and proportional
+  .call(zoom);
+
+
   sexSelect.on("change", handleFilterChange)
   testedSelect.on("change", handleFilterChange)
   metricSelect.on("change", handleMetricChange)
+  zoomBtn.on("click", () => {
+    if (selectedCountryName) {
+      countryMapActive = true
+      updateMapToCountry(selectedCountryName === "USA" ? "United States of America" : selectedCountryName)
+    }
+  })
 }).catch(err => {
   console.error("Error loading data:", err)
 })
 
 function handleFilterChange() {
-  updateMapColors()
+  if (countryMapActive) {
+    updateMapToCountry()
+  }else{
+    drawMap()
+    updateMapColors()
+  }
   updateLegend()
   updateDetailPanel(selectedCountryName)
 
@@ -164,7 +231,7 @@ function filteredRows() {
 }
 
 function drawMap() {
-  svg.append("g")
+  mapGroupSvg
     .attr("class", "countries")
     .selectAll("path")
     .data(worldData.features)
@@ -175,6 +242,131 @@ function drawMap() {
     .on("mousemove", handleMouseMove)
     .on("mouseout", handleMouseOut)
     .on("click", handleCountryClick)
+    .on("dblclick", handleCountryDoubleClick)
+
+  const zoomableFeatures = worldData.features.filter(f => {
+    const name = normalizeCountryName(f.properties.name);
+    return possibleCountries.includes(name);
+  });
+
+  mapGroupSvg.selectAll(".zoom-icon")
+  .data(zoomableFeatures, d => d.properties.name)
+  .join("text")
+  .attr("class", "zoom-icon")
+  .attr("x", d => projection(d3.geoCentroid(d))[0])
+  .attr("y", d => projection(d3.geoCentroid(d))[1])
+  .attr("text-anchor", "middle")
+  .attr("alignment-baseline", "middle")
+  .attr("font-size", "20px")
+  .style("pointer-events", "none") // Crucial: clicks pass through to the path below
+  .text("🔍");
+
+}
+
+function updateMapToCountry(countryNameLong) {
+  zoomBtn.property("hidden", true);
+  mapGroupSvg.selectAll(".zoom-icon").remove();
+
+  // --- BACK BUTTON ---
+  d3.select("#back-button").remove();
+  d3.select(mapSvg.node().parentNode)
+  .style("position", "relative")
+  .append("button")
+  .attr("id", "back-button")
+  .text("← Back to World Map")
+  .style("position", "absolute")
+  .style("top", "10px")
+  .style("left", "10px")
+  .style("z-index", "10")
+  .on("click", () => {
+    d3.select("#back-button").remove();
+    countryMapActive = false;
+    // Reset projection to world view
+    projection.fitExtent([[0, 10], [width, height - 10]], worldData);
+    handleFilterChange();
+  });
+
+  // Data Preparation
+  const stateAggMap = getCountryAggregationMap();
+  const values = Array.from(stateAggMap.values())
+  .map(d => d[currentMetric])
+  .filter(Number.isFinite);
+
+  const min = d3.min(values) || 0;
+  const max = d3.max(values) || 0;
+
+  let colorScale;
+  if (currentMetric === "lift_count") {
+    colorScale = d3.scaleSequentialLog()
+    .domain([Math.max(min, 1), max])
+    .interpolator(d3.interpolateBlues);
+  } else {
+    colorScale = d3.scaleSequential()
+    .domain([min, max])
+    .interpolator(d3.interpolateBlues);
+  }
+
+  // Filter Features and Fit Projection
+  const filteredFeatures = countryData.filter(d => d.properties.admin === countryNameLong);
+  const collection = { type: "FeatureCollection", features: filteredFeatures };
+
+  let localProjection = d3.geoMercator();
+  // Special case for USA
+  if (countryNameLong === "United States of America" || countryNameLong === "USA") {
+    localProjection = d3.geoAlbersUsa();
+  }
+
+  // Important: Use fitExtent with padding so it doesn't hit the edges
+  localProjection.fitExtent([[margin, margin], [width - margin, height - margin]], collection);
+  const pathGenerator = d3.geoPath().projection(localProjection);
+
+  // Reset Zoom
+  mapSvg.transition()
+  .duration(750)
+  .call(zoom.transform, d3.zoomIdentity);
+
+  // Update the Map Paths
+  mapGroupSvg.selectAll("path")
+  .data(filteredFeatures, d => d.properties.name_en || d.properties.name)
+  .join("path")
+  .attr("class", "country-state")
+  .attr("d", pathGenerator)
+  // .attr("stroke", "#666")
+  .attr("stroke-width", 0.5)
+  .transition().duration(500)
+  .attr("fill", d => {
+    // Logic to find the data: check postal code AND name
+    const data = stateAggMap.get(d.properties.postal) ||
+        stateAggMap.get(d.properties.name) ||
+        stateAggMap.get(d.properties.name_en);
+
+    return (data && Number.isFinite(data[currentMetric]))
+        ? colorScale(data[currentMetric])
+        : "#e0e0e0";
+  });
+
+  // Update Tooltip Logic
+  mapGroupSvg.selectAll("path")
+  .on("mouseover", function (event, d) {
+    const stateName = d.properties.name_en || d.properties.name || d.properties.postal;
+    const data = stateAggMap.get(d.properties.postal) ||
+        stateAggMap.get(d.properties.name) ||
+        stateAggMap.get(d.properties.name_en);
+
+    tooltip.classed("visible", true);
+    if (data) {
+      tooltip.html(`
+          <strong>${stateName}</strong><br>
+          ${labelForMetric(currentMetric)}: ${formatMetric(data[currentMetric])}<br>
+          Athletes: ${d3.format(",")(data.lift_count)}
+        `);
+    } else {
+      tooltip.html(`<strong>${stateName}</strong><br>No data found`);
+    }
+  })
+  .on("mousemove", handleMouseMove)
+  .on("mouseout", handleMouseOut)
+  .on("click", null);
 }
 
 function featureCountryName(feature) {
@@ -209,13 +401,15 @@ function handleMouseOut() {
 }
 
 function handleCountryClick(event, feature) {
+  zoomBtn.property("hidden", possibleCountries.includes(selectedCountryName));
+
   const aggregate = getCountryAggregate(feature)
   if (!aggregate) return
 
   selectedCountryName = aggregate.countryName
 
-  svg.selectAll(".selection-outline").remove()
-  svg.append("path")
+  mapGroupSvg.selectAll(".selection-outline").remove()
+  mapGroupSvg.append("path")
     .datum(feature)
     .attr("class", "selection-outline")
     .attr("d", path)
@@ -228,7 +422,35 @@ function handleCountryClick(event, feature) {
   updateBoxplots(selectedCountryName)
 }
 
-function getCountryAggregatesMap() {
+function handleCountryDoubleClick(event, feature) {
+  const aggregate = getCountryAggregate(feature)
+  if (!aggregate) return
+
+  if (!possibleCountries.includes(selectedCountryName) ) {
+    Toastify({
+      text: "This country is not available for detailed analysis.",
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "#e3b658",
+      },
+      onClick: function(){} // Callback after click
+    }).showToast();
+    return;
+  }
+
+  countryMapActive = true
+
+  updateMapToCountry(selectedCountryName === "USA" ? "United States of America" : selectedCountryName)
+  updateDetailPanel(selectedCountryName)
+  updateBoxplots(selectedCountryName)
+}
+
+function getWorldAggregatesMap() {
   const rows = filteredRows()
   const grouped = d3.group(rows, d => d.countryName)
   const map = new Map()
@@ -253,13 +475,36 @@ function getCountryAggregatesMap() {
   return map
 }
 
+function getCountryAggregationMap() {
+  const rows = rawRows.filter(d => d.countryName === selectedCountryName);
+  // Group by 'state' (from CSV) instead of 'countryCode'
+  const grouped = d3.group(rows, d => d.state ? d.state.trim() : "Unknown");
+  const map = new Map();
+
+  for (const [name, values] of grouped.entries()) {
+    const dotsValues = values.map(v => v.dots).filter(Number.isFinite);
+    const totalValues = values.map(v => v.total).filter(Number.isFinite);
+    const medianDots = dotsValues.length ? d3.median(dotsValues) : NaN;
+    const medianTotal = totalValues.length ? d3.median(totalValues) : NaN;
+    const count = new Set(values.map(v => v.athleteKey)).size;
+
+    map.set(name, {
+      stateName: name, // Reference name for debugging
+      median_dots: medianDots,
+      median_total: medianTotal,
+      lift_count: count
+    });
+  }
+  return map;
+}
+
 function getCountryAggregate(feature) {
   const name = featureCountryName(feature)
   return aggMap.get(name) || null
 }
 
 function updateMapColors() {
-  aggMap = getCountryAggregatesMap()
+  aggMap = getWorldAggregatesMap()
 
   const values = Array.from(aggMap.values())
     .map(d => d[currentMetric])
@@ -286,7 +531,7 @@ function updateMapColors() {
       .interpolator(d3.interpolateBlues)
   }
 
-  svg.selectAll(".country")
+  mapSvg.selectAll(".country")
     .transition()
     .duration(500)
     .attr("fill", feature => {
@@ -297,13 +542,13 @@ function updateMapColors() {
         : colorScale(data[currentMetric])
     })
 
-  svg.node().__colorScale = colorScale
-  svg.node().__scaleDomain = [min, max]
+  mapSvg.node().__colorScale = colorScale
+  mapSvg.node().__scaleDomain = [min, max]
 }
 
 function updateLegend() {
-  const colorScale = svg.node().__colorScale
-  const domain = svg.node().__scaleDomain
+  const colorScale = mapSvg.node().__colorScale
+  const domain = mapSvg.node().__scaleDomain
   if (!colorScale || !domain) return
 
   legendTitle.text(labelForMetric(currentMetric))
@@ -322,8 +567,8 @@ function updateLegend() {
 
   legendContainer.selectAll("*").remove()
 
-  const legendWidth = legendContainer.node().clientWidth || 400
-  const legendHeight = legendContainer.node().clientHeight || 18
+  const legendWidth = legendContainer.node().clientWidth
+  const legendHeight = legendContainer.node().clientHeight
 
   const legendSvg = legendContainer.append("svg")
     .attr("width", legendWidth)
@@ -658,3 +903,4 @@ function formatPercentage(part, total) {
   if (!total) return "0%"
   return d3.format(".1%")(part / total)
 }
+
