@@ -165,25 +165,25 @@ Promise.all([
 
   // Zoom Behavior on Map
   zoom = d3.zoom()
-  .scaleExtent([1, 5])
-  .filter(event => {
+    .scaleExtent([1, 5])
+    .filter(event => {
 
-    return event.type !== 'dblclick';
-  })
-  .on("zoom", (event) => {
-    // Only apply transform to the mapGroup, not the legendGroup
-    mapGroupSvg.attr("transform", event.transform);
+      return event.type !== 'dblclick';
+    })
+    .on("zoom", (event) => {
+      // Only apply transform to the mapGroup, not the legendGroup
+      mapGroupSvg.attr("transform", event.transform);
 
-    // Keep icons from getting too large/small
-    mapGroupSvg.selectAll(".zoom-icon")
-    .attr("font-size", `${20 / event.transform.k}px`);
-  })
+      // Keep icons from getting too large/small
+      mapGroupSvg.selectAll(".zoom-icon")
+        .attr("font-size", `${20 / event.transform.k}px`);
+    })
   mapSvg.call(zoom);
 
   mapSvg
-  .attr("viewBox", `${-margin/2} ${-margin/2} ${width} ${height}`)
-  .attr("preserveAspectRatio", "xMidYMid meet") // Keeps the map centered and proportional
-  .call(zoom);
+    .attr("viewBox", `${-margin/2} ${-margin/2} ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet") // Keeps the map centered and proportional
+    .call(zoom);
 
 
   sexSelect.on("change", handleFilterChange)
@@ -201,7 +201,7 @@ Promise.all([
 
 function handleFilterChange() {
   if (countryMapActive) {
-    updateMapToCountry()
+    updateMapToCountry(selectedCountryName === "USA" ? "United States of America" : selectedCountryName)
   }else{
     drawMap()
     updateMapColors()
@@ -214,7 +214,12 @@ function handleFilterChange() {
 
 function handleMetricChange() {
   currentMetric = metricSelect.node().value
-  updateMapColors()
+  if (countryMapActive) {
+    updateMapToCountry(selectedCountryName === "USA" ? "United States of America" : selectedCountryName)
+  }else{
+    drawMap()
+    updateMapColors()
+  }
   updateLegend()
   updateDetailPanel(selectedCountryName)
 }
@@ -250,16 +255,16 @@ function drawMap() {
   });
 
   mapGroupSvg.selectAll(".zoom-icon")
-  .data(zoomableFeatures, d => d.properties.name)
-  .join("text")
-  .attr("class", "zoom-icon")
-  .attr("x", d => projection(d3.geoCentroid(d))[0])
-  .attr("y", d => projection(d3.geoCentroid(d))[1])
-  .attr("text-anchor", "middle")
-  .attr("alignment-baseline", "middle")
-  .attr("font-size", "20px")
-  .style("pointer-events", "none") // Crucial: clicks pass through to the path below
-  .text("🔍");
+    .data(zoomableFeatures, d => d.properties.name)
+    .join("text")
+    .attr("class", "zoom-icon")
+    .attr("x", d => projection(d3.geoCentroid(d))[0])
+    .attr("y", d => projection(d3.geoCentroid(d))[1])
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .attr("font-size", "20px")
+    .style("pointer-events", "none") // Crucial: clicks pass through to the path below
+    .text("🔍");
 
 }
 
@@ -270,27 +275,27 @@ function updateMapToCountry(countryNameLong) {
   // --- BACK BUTTON ---
   d3.select("#back-button").remove();
   d3.select(mapSvg.node().parentNode)
-  .style("position", "relative")
-  .append("button")
-  .attr("id", "back-button")
-  .text("← Back to World Map")
-  .style("position", "absolute")
-  .style("top", "10px")
-  .style("left", "10px")
-  .style("z-index", "10")
-  .on("click", () => {
-    d3.select("#back-button").remove();
-    countryMapActive = false;
-    // Reset projection to world view
-    projection.fitExtent([[0, 10], [width, height - 10]], worldData);
-    handleFilterChange();
-  });
+    .style("position", "relative")
+    .append("button")
+    .attr("id", "back-button")
+    .text("← Back to World Map")
+    .style("position", "absolute")
+    .style("top", "10px")
+    .style("left", "10px")
+    .style("z-index", "10")
+    .on("click", () => {
+      d3.select("#back-button").remove();
+      countryMapActive = false;
+      // Reset projection to world view
+      projection.fitExtent([[0, 10], [width, height - 10]], worldData);
+      handleFilterChange();
+    });
 
   // Data Preparation
   const stateAggMap = getCountryAggregationMap();
   const values = Array.from(stateAggMap.values())
-  .map(d => d[currentMetric])
-  .filter(Number.isFinite);
+    .map(d => d[currentMetric])
+    .filter(Number.isFinite);
 
   const min = d3.min(values) || 0;
   const max = d3.max(values) || 0;
@@ -298,13 +303,16 @@ function updateMapToCountry(countryNameLong) {
   let colorScale;
   if (currentMetric === "lift_count") {
     colorScale = d3.scaleSequentialLog()
-    .domain([Math.max(min, 1), max])
-    .interpolator(d3.interpolateBlues);
+      .domain([Math.max(min, 1), max])
+      .interpolator(d3.interpolateBlues);
   } else {
     colorScale = d3.scaleSequential()
-    .domain([min, max])
-    .interpolator(d3.interpolateBlues);
+      .domain([min, max])
+      .interpolator(d3.interpolateBlues);
   }
+
+  mapSvg.node().__colorScale = colorScale
+  mapSvg.node().__scaleDomain = [min, max]
 
   // Filter Features and Fit Projection
   const filteredFeatures = countryData.filter(d => d.properties.admin === countryNameLong);
@@ -322,51 +330,51 @@ function updateMapToCountry(countryNameLong) {
 
   // Reset Zoom
   mapSvg.transition()
-  .duration(750)
-  .call(zoom.transform, d3.zoomIdentity);
+    .duration(750)
+    .call(zoom.transform, d3.zoomIdentity);
 
   // Update the Map Paths
   mapGroupSvg.selectAll("path")
-  .data(filteredFeatures, d => d.properties.name_en || d.properties.name)
-  .join("path")
-  .attr("class", "country-state")
-  .attr("d", pathGenerator)
-  // .attr("stroke", "#666")
-  .attr("stroke-width", 0.5)
-  .transition().duration(500)
-  .attr("fill", d => {
-    // Logic to find the data: check postal code AND name
-    const data = stateAggMap.get(d.properties.postal) ||
+    .data(filteredFeatures, d => d.properties.name_en || d.properties.name)
+    .join("path")
+    .attr("class", "country-state")
+    .attr("d", pathGenerator)
+    // .attr("stroke", "#666")
+    .attr("stroke-width", 0.5)
+    .transition().duration(500)
+    .attr("fill", d => {
+      // Logic to find the data: check postal code AND name
+      const data = stateAggMap.get(d.properties.postal) ||
         stateAggMap.get(d.properties.name) ||
         stateAggMap.get(d.properties.name_en);
 
-    return (data && Number.isFinite(data[currentMetric]))
+      return (data && Number.isFinite(data[currentMetric]))
         ? colorScale(data[currentMetric])
         : "#e0e0e0";
-  });
+    });
 
   // Update Tooltip Logic
   mapGroupSvg.selectAll("path")
-  .on("mouseover", function (event, d) {
-    const stateName = d.properties.name_en || d.properties.name || d.properties.postal;
-    const data = stateAggMap.get(d.properties.postal) ||
+    .on("mouseover", function (event, d) {
+      const stateName = d.properties.name_en || d.properties.name || d.properties.postal;
+      const data = stateAggMap.get(d.properties.postal) ||
         stateAggMap.get(d.properties.name) ||
         stateAggMap.get(d.properties.name_en);
 
-    tooltip.classed("visible", true);
-    if (data) {
-      tooltip.html(`
+      tooltip.classed("visible", true);
+      if (data) {
+        tooltip.html(`
           <strong>${stateName}</strong><br>
           ${labelForMetric(currentMetric)}: ${formatMetric(data[currentMetric])}<br>
           Athletes: ${d3.format(",")(data.lift_count)}
         `);
-    } else {
-      tooltip.html(`<strong>${stateName}</strong><br>No data found`);
-    }
-  })
-  .on("mousemove", handleMouseMove)
-  .on("mouseout", handleMouseOut)
-  .on("click", null);
+      } else {
+        tooltip.html(`<strong>${stateName}</strong><br>No data found`);
+      }
+    })
+    .on("mousemove", handleMouseMove)
+    .on("mouseout", handleMouseOut)
+    .on("click", null);
 }
 
 function featureCountryName(feature) {
@@ -902,4 +910,3 @@ function formatPercentage(part, total) {
   if (!total) return "0%"
   return d3.format(".1%")(part / total)
 }
-
