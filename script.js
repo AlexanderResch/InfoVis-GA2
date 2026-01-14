@@ -401,12 +401,11 @@ function handleMouseOut() {
 }
 
 function handleCountryClick(event, feature) {
-  zoomBtn.property("hidden", possibleCountries.includes(selectedCountryName));
-
   const aggregate = getCountryAggregate(feature)
   if (!aggregate) return
 
   selectedCountryName = aggregate.countryName
+  zoomBtn.property("hidden", !possibleCountries.includes(selectedCountryName));
 
   mapGroupSvg.selectAll(".selection-outline").remove()
   mapGroupSvg.append("path")

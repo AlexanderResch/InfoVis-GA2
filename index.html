@@ -13,41 +13,40 @@
     <h1>Powerlifting – Strength by Country</h1>
   </header>
 
-  <section id="filter-bar">
-    <button id="filter-label">Filters</button>
-
-    <label>
-      Sex:
-      <select id="sex-filter">
-        <option value="all">All</option>
-        <option value="M">Male</option>
-        <option value="F">Female</option>
-      </select>
-    </label>
-
-    <label>
-      Tested:
-      <select id="tested-filter">
-        <option value="all">All</option>
-        <option value="Yes">Tested</option>
-        <option value="Unknown">Tested unknown</option>
-      </select>
-    </label>
-
-    <label>
-      Metric:
-      <select id="metric-filter">
-        <option value="median_dots">Median Dots</option>
-        <option value="median_total">Median Total (kg)</option>
-        <option value="lift_count">Number of Athletes</option>
-      </select>
-    </label>
-  </section>
-
   <main id="layout">
-    <div id="left-col">
       <section id="map-panel">
         <div>
+          <section id="filter-bar">
+            <button id="filter-label">Filters</button>
+
+            <label>
+              Sex:
+              <select id="sex-filter">
+                <option value="all">All</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </label>
+
+            <label>
+              Tested:
+              <select id="tested-filter">
+                <option value="all">All</option>
+                <option value="Yes">Tested</option>
+                <option value="Unknown">Tested unknown</option>
+              </select>
+            </label>
+
+            <label>
+              Metric:
+              <select id="metric-filter">
+                <option value="median_dots">Median Dots</option>
+                <option value="median_total">Median Total (kg)</option>
+                <option value="lift_count">Number of Athletes</option>
+              </select>
+            </label>
+          </section>
+
           <div id="map-wrapper">
             <svg id="map-svg"></svg>
             <div id="tooltip"></div>
@@ -129,12 +128,9 @@
         <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
       </section>
 
-    </div>
 
 
 
-
-  </main>
       <section id="individual-section">
       <h2 class="section-title">Individual Assignment: Best Yearly Records (1971-2024)</h2>
       <p class="ind-subtitle">Explore the progression of powerlifting records over time with interactive filters and
@@ -230,6 +226,7 @@
         </div>
       </div>
     </section>
+  </main>
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="https://d3js.org/d3.v7.min.js"></script>
