@@ -9,238 +9,238 @@
 </head>
 
 <body>
-  <div id="loading">
-    Loading data
-    <span>.</span>
-    <span>.</span>
-    <span>.</span>
-  </div>
+<div id="loading">
+  Loading data
+  <span>.</span>
+  <span>.</span>
+  <span>.</span>
+</div>
 
-  <header>
-    <h1>Powerlifting – Strength by Country</h1>
-  </header>
+<header>
+  <h1>Powerlifting – Strength by Country</h1>
+</header>
 
-  <main id="layout">
-      <section id="map-panel">
-        <div>
-          <section id="filter-bar">
-            <button id="filter-label">Filters</button>
+<main id="layout">
+  <section id="map-panel">
+    <div>
+      <section id="filter-bar">
+        <button id="filter-label">Filters</button>
 
-            <label>
-              Sex:
-              <select id="sex-filter">
-                <option value="all">All</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-              </select>
-            </label>
+        <label>
+          Sex:
+          <select id="sex-filter">
+            <option value="all">All</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
+        </label>
 
-            <label>
-              Tested:
-              <select id="tested-filter">
-                <option value="all">All</option>
-                <option value="Yes">Tested</option>
-                <option value="Unknown">Tested unknown</option>
-              </select>
-            </label>
+        <label>
+          Tested:
+          <select id="tested-filter">
+            <option value="all">All</option>
+            <option value="Yes">Tested</option>
+            <option value="Unknown">Tested unknown</option>
+          </select>
+        </label>
 
-            <label>
-              Metric:
-              <select id="metric-filter">
-                <option value="median_dots">Median Dots</option>
-                <option value="median_total">Median Total (kg)</option>
-                <option value="lift_count">Number of Athletes</option>
-              </select>
-            </label>
-          </section>
-
-          <div id="map-wrapper">
-            <svg id="map-svg"></svg>
-            <div id="tooltip"></div>
-          </div>
-
-          <div id="legend-panel">
-            <span id="legend-title">Median Dots</span>
-            <div id="legend"></div>
-            <div id="legend-labels">
-              <span id="legend-low">Min</span>
-              <span id="legend-mid">Median</span>
-              <span id="legend-high">Max</span>
-            </div>
-          </div>
-        </div>
-
-
-        <aside id="detail-panel">
-          <h2>Detail Panel</h2>
-          <hr>
-          <p id="detail-country">Country: –</p>
-          <p id="detail-median-dots">Median Dots: –</p>
-          <p id="detail-median-total">Median Total Kg: –</p>
-          <p id="detail-count">Athlete Count: –</p>
-          <p id="detail-male">Male Athletes: –</p>
-          <p id="detail-female">Female Athletes: –</p>
-          <p id="detail-tested">Tested Athletes: –</p>
-          <p id="detail-untested">Tested Unknown Athletes: –</p>
-          <button id="detail-zoom-btn" hidden>Zoom</button>
-        </aside>
+        <label>
+          Metric:
+          <select id="metric-filter">
+            <option value="median_dots">Median Dots</option>
+            <option value="median_total">Median Total (kg)</option>
+            <option value="lift_count">Number of Athletes</option>
+          </select>
+        </label>
       </section>
 
-      <section id="boxplot-panel">
-        <div id="boxplot-header">
-          <h2>Dots Distributions</h2>
-          <p id="boxplot-subtitle">All countries (Dots distributions)</p>
+      <div id="map-wrapper">
+        <svg id="map-svg"></svg>
+        <div id="tooltip"></div>
+      </div>
+
+      <div id="legend-panel">
+        <span id="legend-title">Median Dots</span>
+        <div id="legend"></div>
+        <div id="legend-labels">
+          <span id="legend-low">Min</span>
+          <span id="legend-mid">Median</span>
+          <span id="legend-high">Max</span>
         </div>
-        <div id="boxplot-wrapper">
-          <svg id="boxplot-svg"></svg>
-          <div id="boxplot-tooltip"></div>
-        </div>
-      </section>
-
-      <!-- Barbell Chart -->
-
-      <section id="bar-bell-chart">
-        <h2> Direct Record Comparison </h2>
-        <p>
-          Using this tool you can compare the best competition results in the sport of powerlifting by interactively
-          filtering each group.
-          You can filter by countries, sex, whether the record was made in a tested competition or not, and by
-          weightclasses.
-          Just search for a filter tag and stack multiple filters! If no result for your combination is found, the bar
-          will drop to zero.
-        </p>
-
-        <h3> Filter blue group: </h3>
-        <div class="tag-selector">
-          <div class="tag-input-area">
-            <div id="selected-tags-blue"></div>
-            <input id="tag-input-blue" type="text" autocomplete="off" placeholder="Type to search tags...">
-          </div>
-
-          <ul id="suggestions-blue" class="hidden"></ul>
-        </div>
-
-        <h3> Filter red group: </h3>
-        <div class="tag-selector">
-          <div class="tag-input-area">
-            <div id="selected-tags-red"></div>
-            <input id="tag-input-red" type="text" autocomplete="off" placeholder="Type to search tags...">
-          </div>
-
-          <ul id="suggestions-red" class="hidden"></ul>
-        </div>
+      </div>
+    </div>
 
 
+    <aside id="detail-panel">
+      <h2>Detail Panel</h2>
+      <hr>
+      <p id="detail-country">Country: –</p>
+      <p id="detail-median-dots">Median Dots: –</p>
+      <p id="detail-median-total">Median Total Kg: –</p>
+      <p id="detail-count">Athlete Count: –</p>
+      <p id="detail-male">Male Athletes: –</p>
+      <p id="detail-female">Female Athletes: –</p>
+      <p id="detail-tested">Tested Athletes: –</p>
+      <p id="detail-untested">Tested Unknown Athletes: –</p>
+      <button id="detail-zoom-btn" hidden>Zoom</button>
+    </aside>
+  </section>
 
-        <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
-      </section>
+  <section id="boxplot-panel">
+    <div id="boxplot-header">
+      <h2>Dots Distributions</h2>
+      <p id="boxplot-subtitle">All countries (Dots distributions)</p>
+    </div>
+    <div id="boxplot-wrapper">
+      <svg id="boxplot-svg"></svg>
+      <div id="boxplot-tooltip"></div>
+    </div>
+  </section>
+
+  <!-- Barbell Chart -->
+
+  <section id="bar-bell-chart">
+    <h2> Direct Record Comparison </h2>
+    <p>
+      Using this tool you can compare the best competition results in the sport of powerlifting by interactively
+      filtering each group.
+      You can filter by countries, sex, whether the record was made in a tested competition or not, and by
+      weightclasses.
+      Just search for a filter tag and stack multiple filters! If no result for your combination is found, the bar
+      will drop to zero.
+    </p>
+
+    <h3> Filter blue group: </h3>
+    <div class="tag-selector">
+      <div class="tag-input-area">
+        <div id="selected-tags-blue"></div>
+        <input id="tag-input-blue" type="text" autocomplete="off" placeholder="Type to search tags...">
+      </div>
+
+      <ul id="suggestions-blue" class="hidden"></ul>
+    </div>
+
+    <h3> Filter red group: </h3>
+    <div class="tag-selector">
+      <div class="tag-input-area">
+        <div id="selected-tags-red"></div>
+        <input id="tag-input-red" type="text" autocomplete="off" placeholder="Type to search tags...">
+      </div>
+
+      <ul id="suggestions-red" class="hidden"></ul>
+    </div>
+
+
+
+    <svg id="bar-bell-chart-svg" width="1000" height="800"></svg>
+  </section>
 
 
 
 
-      <section id="individual-section">
-      <h2 class="section-title">Individual Assignment: Best Yearly Records (1971-2024)</h2>
-      <p class="ind-subtitle">Explore the progression of powerlifting records over time with interactive filters and
-        brush zooming.</p>
+  <section id="individual-section">
+    <h2 class="section-title">Best Yearly Records (1971-2024)</h2>
+    <p class="ind-subtitle">Explore the progression of powerlifting records over time with interactive filters and
+      brush zooming.</p>
 
-      <div class="individual-layout">
-        <!-- Sidebar with filters -->
-        <aside class="individual-sidebar">
-          <div class="filter-group">
-            <h3 class="filter-title">Category</h3>
-            <div class="filter-row">
-              <label for="ind-categorySelect">
-                Score Type
-                <span class="info-icon" tabindex="0">i
+    <div class="individual-layout">
+      <!-- Sidebar with filters -->
+      <aside class="individual-sidebar">
+        <div class="filter-group">
+          <h3 class="filter-title">Category</h3>
+          <div class="filter-row">
+            <label for="ind-categorySelect">
+              Score Type
+              <span class="info-icon" tabindex="0">i
                   <span class="info-tooltip">
                     Totals: sum of Squat, Bench, Deadlift.<br>
                     Single lifts: best per lift type.<br>
                     Dots: bodyweight-adjusted score.
                   </span>
                 </span>
-              </label>
-              <select id="ind-categorySelect">
-                <option value="totals_all">Totals (All)</option>
-                <option value="totals_open">Totals (Open)</option>
-                <option value="totals_tested">Totals (Tested)</option>
-                <option value="dots">Dots</option>
-                <option value="squat">Squat</option>
-                <option value="bench">Bench</option>
-                <option value="deadlift">Deadlift</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="filter-group">
-            <h3 class="filter-title">Filters</h3>
-
-            <div class="filter-row">
-              <label for="ind-federationSelect">Federation</label>
-              <select id="ind-federationSelect">
-                <option value="all">All</option>
-              </select>
-            </div>
-
-            <div class="filter-row">
-              <label for="ind-testedSelect">Tested</label>
-              <select id="ind-testedSelect">
-                <option value="all">All</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </div>
-
-            <div class="filter-row">
-              <label for="ind-equipmentSelect">Equipment</label>
-              <select id="ind-equipmentSelect">
-                <option value="all">All</option>
-                <option value="Raw">Raw</option>
-                <option value="Wraps">Wraps</option>
-                <option value="Single-ply">Single-ply</option>
-                <option value="Multi-ply">Multi-ply</option>
-                <option value="Unlimited">Unlimited</option>
-              </select>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Main chart area -->
-        <div class="individual-main">
-          <div id="ind-chart-wrap">
-            <div class="chart-header">
-              <span class="chart-title">Best yearly records</span>
-              <div class="legend">
-                <div class="legend-item">
-                  <span class="swatch male"></span>
-                  <span>Male</span>
-                </div>
-                <div class="legend-item">
-                  <span class="swatch female"></span>
-                  <span>Female</span>
-                </div>
-              </div>
-            </div>
-            <svg id="ind-chart"></svg>
-          </div>
-
-          <div id="ind-brush-wrap">
-            <svg id="ind-brush"></svg>
-          </div>
-
-          <div class="footer">
-            Data source: <a href="https://www.openpowerlifting.org" target="_blank">OpenPowerlifting</a>
+            </label>
+            <select id="ind-categorySelect">
+              <option value="totals_all">Totals (All)</option>
+              <option value="totals_open">Totals (Open)</option>
+              <option value="totals_tested">Totals (Tested)</option>
+              <option value="dots">Dots</option>
+              <option value="squat">Squat</option>
+              <option value="bench">Bench</option>
+              <option value="deadlift">Deadlift</option>
+            </select>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
-  <script type="module" src="./barbellchart.js"></script>
-  <script src="./script.js"></script>
-  <script type="module" src="./linechart.js"></script>
+        <div class="filter-group">
+          <h3 class="filter-title">Filters</h3>
+
+          <div class="filter-row">
+            <label for="ind-federationSelect">Federation</label>
+            <select id="ind-federationSelect">
+              <option value="all">All</option>
+            </select>
+          </div>
+
+          <div class="filter-row">
+            <label for="ind-testedSelect">Tested</label>
+            <select id="ind-testedSelect">
+              <option value="all">All</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div class="filter-row">
+            <label for="ind-equipmentSelect">Equipment</label>
+            <select id="ind-equipmentSelect">
+              <option value="all">All</option>
+              <option value="Raw">Raw</option>
+              <option value="Wraps">Wraps</option>
+              <option value="Single-ply">Single-ply</option>
+              <option value="Multi-ply">Multi-ply</option>
+              <option value="Unlimited">Unlimited</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main chart area -->
+      <div class="individual-main">
+        <div id="ind-chart-wrap">
+          <div class="chart-header">
+            <span class="chart-title">Best yearly records</span>
+            <div class="legend">
+              <div class="legend-item">
+                <span class="swatch male"></span>
+                <span>Male</span>
+              </div>
+              <div class="legend-item">
+                <span class="swatch female"></span>
+                <span>Female</span>
+              </div>
+            </div>
+          </div>
+          <svg id="ind-chart"></svg>
+        </div>
+
+        <div id="ind-brush-wrap">
+          <svg id="ind-brush"></svg>
+        </div>
+
+        <div class="footer">
+          Data source: <a href="https://www.openpowerlifting.org" target="_blank">OpenPowerlifting</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+<script type="module" src="./barbellchart.js"></script>
+<script src="./script.js"></script>
+<script type="module" src="./linechart.js"></script>
 
 </body>
 </html>

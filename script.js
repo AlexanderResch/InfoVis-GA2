@@ -289,6 +289,11 @@ function updateMapToCountry(countryNameLong) {
       countryMapActive = false;
       // Reset projection to world view
       projection.fitExtent([[0, 10], [width, height - 10]], worldData);
+
+      if (typeof updateIndCountryHighlight !== 'undefined') {
+        updateIndCountryHighlight(null);
+      }
+
       handleFilterChange();
     });
 
@@ -428,6 +433,10 @@ function handleCountryClick(event, feature) {
 
   updateDetailPanel(selectedCountryName)
   updateBoxplots(selectedCountryName)
+
+  if (typeof updateIndCountryHighlight !== 'undefined') {
+    updateIndCountryHighlight(selectedCountryName);
+  }
 }
 
 function handleCountryDoubleClick(event, feature) {

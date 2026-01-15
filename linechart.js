@@ -1,4 +1,3 @@
-
 const IND_DATA_JSON_PATH = "data/openpowerlifting.json";
 const IND_YEARS = { min: 1971, max: 2024 };
 
@@ -22,98 +21,105 @@ const indBrushMargin = { top: 10, right: 40, bottom: 30, left: 70 };
 const indBrushHeight = 100;
 const indBrushInnerHeight = indBrushHeight - indBrushMargin.top - indBrushMargin.bottom;
 
-// Main SVG
 const indSvg = d3.select("#ind-chart")
-  .attr("viewBox", `0 0 ${indWidth} ${indHeight}`)
-  .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("viewBox", `0 0 ${indWidth} ${indHeight}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
 const indG = indSvg.append("g")
-  .attr("transform", `translate(${indMargin.left},${indMargin.top})`);
+    .attr("transform", `translate(${indMargin.left},${indMargin.top})`);
 
-// Clipping
 indG.append("clipPath").attr("id", "ind-clip")
-  .append("rect")
-  .attr("width", indInnerWidth)
-  .attr("height", indInnerHeight);
+    .append("rect")
+    .attr("width", indInnerWidth)
+    .attr("height", indInnerHeight);
 
-// Scales
 const indX = d3.scaleTime().range([0, indInnerWidth]);
 const indY = d3.scaleLinear().range([indInnerHeight, 0]);
 
-// Axes groups
 const indXAxisG = indG.append("g")
-  .attr("transform", `translate(0,${indInnerHeight})`)
-  .attr("class", "x axis");
+    .attr("transform", `translate(0,${indInnerHeight})`)
+    .attr("class", "x axis");
 
 const indYAxisG = indG.append("g")
-  .attr("class", "y axis");
+    .attr("class", "y axis");
 
-// Axis labels
 indG.append("text")
-  .attr("class", "axis-label")
-  .attr("x", indInnerWidth / 2)
-  .attr("y", indInnerHeight + 40)
-  .attr("text-anchor", "middle")
-  .text("Year");
+    .attr("class", "axis-label")
+    .attr("x", indInnerWidth / 2)
+    .attr("y", indInnerHeight + 40)
+    .attr("text-anchor", "middle")
+    .text("Year");
 
 const indYLabel = indG.append("text")
-  .attr("class", "axis-label")
-  .attr("transform", "rotate(-90)")
-  .attr("x", -indInnerHeight / 2)
-  .attr("y", -50)
-  .attr("text-anchor", "middle")
-  .text("Best result [kg]");
+    .attr("class", "axis-label")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -indInnerHeight / 2)
+    .attr("y", -50)
+    .attr("text-anchor", "middle")
+    .text("Best result [kg]");
 
-// Line generator
 const indLineGen = d3.line()
-  .x(d => indX(d.yearDate))
-  .y(d => indY(d.best))
-  .curve(d3.curveMonotoneX);
+    .x(d => indX(d.yearDate))
+    .y(d => indY(d.best))
+    .curve(d3.curveMonotoneX);
 
-// Colors
 const indColor = { M: "#1f77b4", F: "#ff6fb3" };
 
-// Groups
 const indLinesG = indG.append("g").attr("clip-path", "url(#ind-clip)");
 const indDotsG = indG.append("g").attr("clip-path", "url(#ind-clip)");
 
-// Tooltip
 const indTooltip = d3.select("body")
-  .append("div")
-  .attr("class", "ind-tooltip");
+    .append("div")
+    .attr("class", "ind-tooltip");
 
-// Brush SVG
 const indBrushSvg = d3.select("#ind-brush")
-  .attr("viewBox", `0 0 ${indWidth} ${indBrushHeight}`)
-  .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("viewBox", `0 0 ${indWidth} ${indBrushHeight}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
 const indBrushG = indBrushSvg.append("g")
-  .attr("transform", `translate(${indBrushMargin.left},${indBrushMargin.top})`);
+    .attr("transform", `translate(${indBrushMargin.left},${indBrushMargin.top})`);
 
 const indBrushX = d3.scaleTime().range([0, indInnerWidth]);
 const indBrushXAxisG = indBrushG.append("g")
-  .attr("transform", `translate(0,${indBrushInnerHeight})`);
+    .attr("transform", `translate(0,${indBrushInnerHeight})`);
 
 let indBrush;
 
-// UI
 const indCategorySelect = document.getElementById("ind-categorySelect");
 const indFederationSelect = document.getElementById("ind-federationSelect");
 const indTestedSelect = document.getElementById("ind-testedSelect");
 const indEquipmentSelect = document.getElementById("ind-equipmentSelect");
 
-// State
 let indFullData = null;
 let indYearsExtent = [new Date(IND_YEARS.min, 0, 1), new Date(IND_YEARS.max, 11, 31)];
 let indCurrentCategory = indCategorySelect.value;
+let indSelectedCountry = null;
 
-// Load preprocessed JSON
+const indMilestones = [
+  {
+    year: 1992,
+    label: "More Equipment Allowed",
+    description: "IPF officially allows bench shirts and squat suits",
+    color: "#ff6b6b"
+  },
+  {
+    year: 2000,
+    label: "Multi-ply Boom",
+    description: "Peak of the equipment era, way more interest and bigger increases in records",
+    color: "#4ecdc4"
+  },
+  {
+    year: 2014,
+    label: "Raw/Classic Official",
+    description: "IPF introduces official Raw/Classic categories – transition phase",
+    color: "#95e1d3"
+  }
+];
+
+
 d3.json(IND_DATA_JSON_PATH).then(json => {
   indFullData = json;
 
-  console.log("Individual data loaded successfully");
-
-  // Populate federation dropdown with top federations
   if (json.federations && json.federations.length > 0) {
     const fedCounts = {};
     Object.keys(json.data).forEach(cat => {
@@ -129,11 +135,9 @@ d3.json(IND_DATA_JSON_PATH).then(json => {
     });
 
     const topFeds = Object.entries(fedCounts)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(([fed, count]) => fed);
-
-    console.log("Top federations:", topFeds);
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20)
+        .map(([fed, count]) => fed);
 
     topFeds.forEach(fed => {
       const option = document.createElement('option');
@@ -143,7 +147,6 @@ d3.json(IND_DATA_JSON_PATH).then(json => {
     });
   }
 
-  // Convert yearDate strings to Date objects
   Object.keys(json.data).forEach(cat => {
     Object.keys(json.data[cat]).forEach(filterKey => {
       ["M", "F"].forEach(sex => {
@@ -164,14 +167,12 @@ d3.json(IND_DATA_JSON_PATH).then(json => {
   alert("Failed to load preprocessed data JSON. Check console for details.");
 });
 
-// Helper function to get current filter key
 function getIndCurrentFilterKey() {
   const equipment = indEquipmentSelect.value;
   const tested = indTestedSelect.value;
   return `equipment_${equipment}_tested_${tested}`;
 }
 
-// Helper function to get best per year from records list
 function getIndBestPerYear(records) {
   if (!records || records.length === 0) return [];
 
@@ -186,7 +187,6 @@ function getIndBestPerYear(records) {
   return Array.from(yearMap.values()).sort((a, b) => a.year - b.year);
 }
 
-// Helper function to get current data
 function getIndCurrentData() {
   if (!indFullData || !indFullData.data) return null;
 
@@ -220,46 +220,38 @@ function getIndCurrentData() {
   return { M: [], F: [] };
 }
 
-// Events
 indCategorySelect.addEventListener("change", () => {
   indCurrentCategory = indCategorySelect.value;
   updateIndChart();
 });
 
 indFederationSelect.addEventListener("change", () => {
-  console.log("Individual Federation changed to:", indFederationSelect.value);
   updateIndChart();
 });
 
 indTestedSelect.addEventListener("change", () => {
-  console.log("Individual Tested changed to:", indTestedSelect.value);
   updateIndChart();
 });
 
 indEquipmentSelect.addEventListener("change", () => {
-  console.log("Individual Equipment changed to:", indEquipmentSelect.value);
   updateIndChart();
 });
 
-// Update chart
 function updateIndChart() {
   const data = getIndCurrentData();
   if (!data) {
-    console.warn("No individual data available");
     return;
   }
 
   const dataM = data.M || [];
   const dataF = data.F || [];
 
-  console.log(`Individual Rendering: ${dataM.length} male records, ${dataF.length} female records`);
-
   const lineDataM = dataM.filter(d => d.best != null);
   const lineDataF = dataF.filter(d => d.best != null);
 
   const allBestVals = [...dataM, ...dataF]
-    .map(d => d.best)
-    .filter(v => v != null);
+      .map(d => d.best)
+      .filter(v => v != null);
 
   const yMax = allBestVals.length ? d3.max(allBestVals) * 1.06 : 100;
 
@@ -268,8 +260,8 @@ function updateIndChart() {
   indBrushX.domain(indYearsExtent);
 
   const xAxis = d3.axisBottom(indX)
-    .ticks(d3.timeYear.every(5))
-    .tickFormat(d3.timeFormat("%Y"));
+      .ticks(d3.timeYear.every(5))
+      .tickFormat(d3.timeFormat("%Y"));
 
   const yAxis = d3.axisLeft(indY).ticks(6);
 
@@ -282,62 +274,63 @@ function updateIndChart() {
     indYLabel.text(`${indCategories[indCurrentCategory].label} [kg]`);
   }
 
-  // Lines
   indLinesG.selectAll(".line").remove();
 
   if (lineDataM.length > 1) {
     indLinesG.append("path")
-      .datum(lineDataM)
-      .attr("class", "line male-line")
-      .attr("fill", "none")
-      .attr("stroke", indColor.M)
-      .attr("stroke-width", 2)
-      .attr("d", indLineGen)
-      .attr("opacity", 0.9);
+        .datum(lineDataM)
+        .attr("class", "line male-line")
+        .attr("fill", "none")
+        .attr("stroke", indColor.M)
+        .attr("stroke-width", 2)
+        .attr("d", indLineGen)
+        .attr("opacity", 0.9);
   }
 
   if (lineDataF.length > 1) {
     indLinesG.append("path")
-      .datum(lineDataF)
-      .attr("class", "line female-line")
-      .attr("fill", "none")
-      .attr("stroke", indColor.F)
-      .attr("stroke-width", 2)
-      .attr("d", indLineGen)
-      .attr("opacity", 0.9);
+        .datum(lineDataF)
+        .attr("class", "line female-line")
+        .attr("fill", "none")
+        .attr("stroke", indColor.F)
+        .attr("stroke-width", 2)
+        .attr("d", indLineGen)
+        .attr("opacity", 0.9);
   }
 
-  // Dots
   indDotsG.selectAll(".dot-male").remove();
   indDotsG.selectAll(".dot-female").remove();
 
   indDotsG.selectAll(".dot-male")
-    .data(dataM.filter(d => d.best != null))
-    .enter().append("circle")
-    .attr("class", "dot-male")
-    .attr("r", 4)
-    .attr("cx", d => indX(d.yearDate))
-    .attr("cy", d => indY(d.best))
-    .attr("fill", indColor.M)
-    .attr("stroke", "#fff")
-    .on("mouseover", (event, d) => showIndTooltip(event, d))
-    .on("mousemove", (event, d) => moveIndTooltip(event))
-    .on("mouseout", hideIndTooltip);
+      .data(dataM.filter(d => d.best != null))
+      .enter().append("circle")
+      .attr("class", "dot-male")
+      .attr("r", 4)
+      .attr("cx", d => indX(d.yearDate))
+      .attr("cy", d => indY(d.best))
+      .attr("fill", indColor.M)
+      .attr("stroke", "#fff")
+      .on("mouseover", (event, d) => showIndTooltip(event, d))
+      .on("mousemove", (event, d) => moveIndTooltip(event))
+      .on("mouseout", hideIndTooltip);
 
   indDotsG.selectAll(".dot-female")
-    .data(dataF.filter(d => d.best != null))
-    .enter().append("circle")
-    .attr("class", "dot-female")
-    .attr("r", 4)
-    .attr("cx", d => indX(d.yearDate))
-    .attr("cy", d => indY(d.best))
-    .attr("fill", indColor.F)
-    .attr("stroke", "#fff")
-    .on("mouseover", (event, d) => showIndTooltip(event, d))
-    .on("mousemove", (event, d) => moveIndTooltip(event))
-    .on("mouseout", hideIndTooltip);
+      .data(dataF.filter(d => d.best != null))
+      .enter().append("circle")
+      .attr("class", "dot-female")
+      .attr("r", 4)
+      .attr("cx", d => indX(d.yearDate))
+      .attr("cy", d => indY(d.best))
+      .attr("fill", indColor.F)
+      .attr("stroke", "#fff")
+      .on("mouseover", (event, d) => showIndTooltip(event, d))
+      .on("mousemove", (event, d) => moveIndTooltip(event))
+      .on("mouseout", hideIndTooltip);
 
-  // Brush preview
+  if (indSelectedCountry) {
+    applyCountryHighlight(indSelectedCountry);
+  }
+
   const allYears = new Set([...dataM.map(d => d.year), ...dataF.map(d => d.year)]);
   const brushPreview = [];
 
@@ -358,16 +351,16 @@ function updateIndChart() {
 
   if (brushPreview.length > 0) {
     const brushArea = d3.area()
-      .x(d => indBrushX(d.yearDate))
-      .y0(indBrushInnerHeight)
-      .y1(d => indBrushInnerHeight - (d.best ? (d.best / yMax) * indBrushInnerHeight : 0));
+        .x(d => indBrushX(d.yearDate))
+        .y0(indBrushInnerHeight)
+        .y1(d => indBrushInnerHeight - (d.best ? (d.best / yMax) * indBrushInnerHeight : 0));
 
     indBrushG.append("path")
-      .datum(brushPreview)
-      .attr("class", "brush-area")
-      .attr("fill", "#4a90e2")
-      .attr("opacity", 0.2)
-      .attr("d", brushArea);
+        .datum(brushPreview)
+        .attr("class", "brush-area")
+        .attr("fill", "#4a90e2")
+        .attr("opacity", 0.2)
+        .attr("d", brushArea);
   }
 
   const brushTicks = [
@@ -376,21 +369,19 @@ function updateIndChart() {
   ];
 
   indBrushXAxisG.call(
-    d3.axisBottom(indBrushX)
-      .tickValues(brushTicks)
-      .tickFormat(d3.timeFormat("%Y"))
+      d3.axisBottom(indBrushX)
+          .tickValues(brushTicks)
+          .tickFormat(d3.timeFormat("%Y"))
   );
 
-  // Brush
   indBrush = d3.brushX()
-    .extent([[0, 0], [indInnerWidth, indBrushInnerHeight]])
-    .on("end", indBrushed);
+      .extent([[0, 0], [indInnerWidth, indBrushInnerHeight]])
+      .on("end", indBrushed);
 
   indBrushG.selectAll(".brush").remove();
   indBrushG.append("g").attr("class", "brush").call(indBrush);
   indBrushG.select(".brush").call(indBrush.move, [0, indInnerWidth]);
 
-  // Double click reset
   indBrushG.on("dblclick", () => {
     indX.domain(indYearsExtent);
     indXAxisG.transition().duration(600).call(xAxis);
@@ -401,15 +392,81 @@ function updateIndChart() {
     indSvg.selectAll(".male-line").attr("d", indLineGen);
     indSvg.selectAll(".female-line").attr("d", indLineGen);
     indDotsG.selectAll(".dot-male")
-      .attr("cx", d => indX(d.yearDate))
-      .attr("cy", d => indY(d.best));
+        .attr("cx", d => indX(d.yearDate))
+        .attr("cy", d => indY(d.best));
     indDotsG.selectAll(".dot-female")
-      .attr("cx", d => indX(d.yearDate))
-      .attr("cy", d => indY(d.best));
+        .attr("cx", d => indX(d.yearDate))
+        .attr("cy", d => indY(d.best));
   }
+
+  drawIndMilestones();
 }
 
-// Tooltip
+function drawIndMilestones() {
+  indG.selectAll(".milestone-line").remove();
+  indG.selectAll(".milestone-label").remove();
+
+  indMilestones.forEach(milestone => {
+    const milestoneDate = new Date(milestone.year, 0, 1);
+    const xPos = indX(milestoneDate);
+
+    if (xPos < 0 || xPos > indInnerWidth) return;
+
+    const line = indG.append("line")
+        .attr("class", "milestone-line")
+        .attr("x1", xPos)
+        .attr("x2", xPos)
+        .attr("y1", 0)
+        .attr("y2", indInnerHeight)
+        .attr("stroke", milestone.color)
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", "5,5")
+        .attr("opacity", 0.6)
+        .style("pointer-events", "none");
+
+    const labelG = indG.append("g")
+        .attr("class", "milestone-label")
+        .attr("transform", `translate(${xPos}, 10)`)
+        .style("cursor", "pointer");
+
+    const labelText = labelG.append("text")
+        .attr("x", 5)
+        .attr("y", 0)
+        .attr("font-size", "11px")
+        .attr("font-weight", "bold")
+        .attr("fill", milestone.color)
+        .text(milestone.year);
+
+    labelG.append("rect")
+        .attr("x", 0)
+        .attr("y", -12)
+        .attr("width", 40)
+        .attr("height", 16)
+        .attr("fill", "transparent")
+        .on("mouseover", (event) => {
+          indTooltip
+              .style("display", "block")
+              .html(`
+            <strong>${milestone.year}: ${milestone.label}</strong><br>
+            ${milestone.description}
+          `);
+          const [mx, my] = d3.pointer(event, document.body);
+          indTooltip
+              .style("left", `${mx + 14}px`)
+              .style("top", `${my + 14}px`);
+        })
+        .on("mousemove", (event) => {
+          const [mx, my] = d3.pointer(event, document.body);
+          indTooltip
+              .style("left", `${mx + 14}px`)
+              .style("top", `${my + 14}px`);
+        })
+        .on("mouseout", () => {
+          indTooltip.style("display", "none");
+        });
+  });
+}
+
 function showIndTooltip(event, d) {
   if (!d) return;
   const bw = d.bodyweight ? `${(+d.bodyweight).toFixed(1)} kg` : "n/a";
@@ -431,15 +488,14 @@ function showIndTooltip(event, d) {
 
 function moveIndTooltip(event) {
   indTooltip
-    .style("left", (event.pageX + 14) + "px")
-    .style("top", (event.pageY + 14) + "px");
+      .style("left", (event.pageX + 14) + "px")
+      .style("top", (event.pageY + 14) + "px");
 }
 
 function hideIndTooltip() {
   indTooltip.style("display", "none");
 }
 
-// Brushed
 function indBrushed(event) {
   const s = event.selection;
   if (!s) return;
@@ -451,26 +507,59 @@ function indBrushed(event) {
   indX.domain([start, end]);
 
   indXAxisG.transition().duration(500).call(
-    d3.axisBottom(indX)
-      .ticks(d3.timeYear.every(2))
-      .tickFormat(d3.timeFormat("%Y"))
+      d3.axisBottom(indX)
+          .ticks(d3.timeYear.every(2))
+          .tickFormat(d3.timeFormat("%Y"))
   );
 
   indDotsG.selectAll(".dot-male")
-    .transition().duration(500)
-    .attr("cx", d => indX(d.yearDate))
-    .attr("cy", d => indY(d.best));
+      .transition().duration(500)
+      .attr("cx", d => indX(d.yearDate))
+      .attr("cy", d => indY(d.best));
 
   indDotsG.selectAll(".dot-female")
-    .transition().duration(500)
-    .attr("cx", d => indX(d.yearDate))
-    .attr("cy", d => indY(d.best));
+      .transition().duration(500)
+      .attr("cx", d => indX(d.yearDate))
+      .attr("cy", d => indY(d.best));
 
   indLinesG.selectAll(".male-line")
-    .transition().duration(500)
-    .attr("d", indLineGen);
+      .transition().duration(500)
+      .attr("d", indLineGen);
 
   indLinesG.selectAll(".female-line")
-    .transition().duration(500)
-    .attr("d", indLineGen);
+      .transition().duration(500)
+      .attr("d", indLineGen);
+
+  drawIndMilestones();
 }
+
+function updateIndCountryHighlight(countryName) {
+  indSelectedCountry = countryName;
+  applyCountryHighlight(countryName);
+}
+
+function applyCountryHighlight(countryName) {
+  if (!countryName) {
+    indDotsG.selectAll(".dot-male")
+        .transition().duration(300)
+        .attr("opacity", 1.0)
+        .attr("r", 4);
+
+    indDotsG.selectAll(".dot-female")
+        .transition().duration(300)
+        .attr("opacity", 1.0)
+        .attr("r", 4);
+
+    return;
+  }
+
+  indDotsG.selectAll(".dot-male")
+      .transition().duration(300)
+      .attr("r", d => d.country === countryName ? 6 : 3);
+
+  indDotsG.selectAll(".dot-female")
+      .transition().duration(300)
+      .attr("r", d => d.country === countryName ? 6 : 3);
+}
+
+window.updateIndCountryHighlight = updateIndCountryHighlight;
