@@ -680,3 +680,7 @@ header h1 {
     width: 100%;
   }
 }
+
+.ind-subtitle {
+  font-size: 0.85rem !important;
+}
